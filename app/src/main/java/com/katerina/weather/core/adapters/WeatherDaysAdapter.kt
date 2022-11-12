@@ -18,8 +18,8 @@ class WeatherDaysAdapter() :
         private val binding = ItemDayBinding.bind(view)
 
         fun bind(item: WeeklyForecastModel) = with(binding) {
-            val month = item.date.substring(8, 9)
-            val day = item.date.substring(5, 6)
+            val day = item.date.substring(8, 10)
+            val month = item.date.substring(5, 7)
             val date = "$day.$month"
 
             txtDate.text = date

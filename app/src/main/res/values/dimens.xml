@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Spacing-->
+    <dimen name="spacing_6">6dp</dimen>
+    <dimen name="spacing_8">8dp</dimen>
+    <dimen name="spacing_16">16dp</dimen>
+    <dimen name="spacing_20">20dp</dimen>
+    <dimen name="spacing_25">25dp</dimen>
+    <dimen name="spacing_32">32dp</dimen>
+
+    <!--Font sizes-->
+    <dimen name="normal">12sp</dimen>
+    <dimen name="title">16sp</dimen>
+    <dimen name="headline">32sp</dimen>
+    <dimen name="temp">48sp</dimen>
+    <dimen name="spacing_57">57dp</dimen>
+    <dimen name="spacing_340">340dp</dimen>
+
+
+</resources>

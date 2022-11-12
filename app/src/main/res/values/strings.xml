@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PocketWeather</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_current_location">Current location</string>
+    <string name="txt_current_temperature">+25°C</string>
+    <string name="txt_weekly_forecast">Weekly forecast</string>
+    <string name="txt_sunny">Sunny</string>
 </resources>

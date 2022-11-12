@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/spacing_8"
-    app:cardCornerRadius="12dp">
+    app:cardCornerRadius="@dimen/elevation_12">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_marginStart="@dimen/spacing_16"
             android:fontFamily="@font/rubik_regular"
             android:text="14.11"
-            android:textSize="@dimen/headline"
+            android:textSize="@dimen/headline_1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +39,7 @@
             android:layout_marginEnd="@dimen/spacing_16"
             android:fontFamily="@font/rubik_regular"
             android:text="+20°C / +18°C"
-            android:textSize="25sp"
+            android:textSize="@dimen/headline_2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/img_day"
             app:layout_constraintTop_toTopOf="parent" />

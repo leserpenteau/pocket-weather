@@ -2,18 +2,18 @@
     <!-- Base application theme. -->
     <style name="Theme.PocketWeather" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#464E81</item>
-        <item name="colorPrimaryVariant">@color/background_color_variant</item>
-        <item name="colorOnPrimary">@color/background_color_on_primary</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/color_secondary</item>
-        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorOnBackground">@color/background_color_on_background</item>
-        <item name="android:textColor">#5F689F</item>
-        <item name="android:colorBackground">@color/background_color</item>
+        <item name="colorOnBackground">@color/colorOnBackground</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
     </style>
 </resources>

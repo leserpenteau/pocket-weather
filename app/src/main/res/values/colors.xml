@@ -8,23 +8,25 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="background_color">#DEE2FE</color>
-    <color name="background_color_variant">#9FA5CD</color>
-    <color name="background_color_on_primary">#5F689F</color>
-    <color name="background_color_on_background">#5F689F</color>
+    <color name="colorPrimary">#464E81</color>
+    <color name="colorPrimaryVariant">#9FA5CD</color>
+    <color name="colorOnPrimary">#5F689F</color>
+    <color name="colorSecondary">#5F689F</color>
+    <color name="colorSecondaryVariant">#464E81</color>
+    <color name="colorOnSecondary">#FFFFFFFF</color>
+    <color name="colorOnBackground">#5F689F</color>
+    <color name="textColor">#5F689F</color>
+    <color name="colorBackground">#DEE2FE</color>
 
-    <color name="color_secondary">#5F689F</color>
-    <color name="color_secondary_variant">#464E81</color>
-    <color name="color_on_secondary">#DEE2FE</color>
-
-    <!--Dark Theme-->
-    <color name="background_color_dark_theme">#5F689F</color>
-    <color name="background_color_variant_dark_theme">#464E81</color>
-    <color name="background_color_on_primary_dark_theme">#DEE2FE</color>
-    <color name="background_color_on_background_dark_theme">#DEE2FE</color>
-
-    <color name="color_secondary_dark_theme">#DEE2FE</color>
-    <color name="color_secondary_variant_dark_theme">#9FA5CD</color>
-    <color name="color_on_secondary_dark_theme">#5F689F</color>
+    <color name="colorPrimaryDark">#5F689F</color>
+    <color name="colorPrimaryVariantDark">#464E81</color>
+    <color name="colorOnPrimaryDark">#DEE2FE</color>
+    <color name="colorSecondaryDark">#DEE2FE</color>
+    <color name="colorSecondaryVariantDark">#9FA5CD</color>
+    <color name="colorOnSecondaryDark">#5F689F</color>
+    <color name="colorOnBackgroundDark">#DEE2FE</color>
+    <color name="colorSurface">#5F689F</color>
+    <color name="textColorDark">#DEE2FE</color>
+    <color name="colorBackgroundDark">#5f689f</color>
 
 </resources>

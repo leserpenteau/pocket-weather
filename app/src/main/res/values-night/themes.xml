@@ -2,19 +2,19 @@
     <!-- Base application theme. -->
     <style name="Theme.PocketWeather" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/background_color_dark_theme</item>
-        <item name="colorPrimaryVariant">@color/background_color_variant_dark_theme</item>
-        <item name="colorOnPrimary">@color/background_color_on_primary_dark_theme</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariantDark</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryDark</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/color_secondary_dark_theme</item>
-        <item name="colorSecondaryVariant">@color/color_secondary_variant_dark_theme</item>
-        <item name="colorOnSecondary">@color/color_on_secondary_dark_theme</item>
+        <item name="colorSecondary">@color/colorSecondaryDark</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariantDark</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryDark</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorOnBackground">@color/background_color_on_background_dark_theme</item>
-        <item name="colorSurface">@color/background_color_dark_theme</item>
-        <item name="android:textColor">#DEE2FE</item>
-        <item name="android:colorBackground">#5f689f</item>
+        <item name="colorOnBackground">@color/colorOnBackgroundDark</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="android:textColor">@color/textColorDark</item>
+        <item name="android:colorBackground">@color/colorBackgroundDark</item>
     </style>
 </resources>

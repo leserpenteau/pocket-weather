@@ -24,7 +24,7 @@
 
         android:fontFamily="@font/rubik_mono_one_regular"
         android:text="Pocket Weather"
-        android:textSize="@dimen/headline"
+        android:textSize="26sp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

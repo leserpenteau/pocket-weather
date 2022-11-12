@@ -59,6 +59,9 @@ class MainForecastFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showCurrentProgressBar()
+        showHoursProgressBar()
+        showDaysProgressBar()
 
         fLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -145,16 +148,18 @@ class MainForecastFragment : Fragment() {
         viewModel.liveDataCurrentWeather.observe(viewLifecycleOwner) {
             when (it) {
                 is ResponseStatus.Loading -> {
-                    // TODO: Progress bar
+                    showCurrentProgressBar()
                 }
 
                 is ResponseStatus.SuccessWeather -> {
+                    hideCurrentProgressBar()
                     txtCurrentLocation.text = it.item.location
                     txtCurrentTemp.text = "${it.item.temp}°C"
                     txtCondition.text = it.item.condition
                 }
 
                 is ResponseStatus.Error -> {
+                    showCurrentProgressBar()
                     Log.d("MyLog", "Something is wrong with updateCurrentWeather: ${it.throwable}")
                 }
                 else -> {}
@@ -166,14 +171,16 @@ class MainForecastFragment : Fragment() {
         viewModel.liveHoursForecast.observe(viewLifecycleOwner) {
             when (it) {
                 is ResponseStatus.Loading -> {
-                    // TODO: Progress bar
+                    showHoursProgressBar()
                 }
 
                 is ResponseStatus.SuccessHoursForecast -> {
+                    hideHoursProgressBar()
                     hoursAdapter.submitList(it.list)
                 }
 
                 is ResponseStatus.Error -> {
+                    showHoursProgressBar()
                     Log.d("MyLog", "Something is wrong with updateHoursForecast: ${it.throwable}")
                 }
                 else -> {}
@@ -185,14 +192,16 @@ class MainForecastFragment : Fragment() {
         viewModel.liveWeeklyForecast.observe(viewLifecycleOwner) {
             when (it) {
                 is ResponseStatus.Loading -> {
-                    // TODO: Progress bar
+                    showDaysProgressBar()
                 }
 
                 is ResponseStatus.SuccessWeeklyForecast -> {
+                    hideDaysProgressBar()
                     daysAdapter.submitList(it.list)
                 }
 
                 is ResponseStatus.Error -> {
+                    showDaysProgressBar()
                     Log.d("MyLog", "Something is wrong with updateDaysForecast: ${it.throwable}")
                 }
 
@@ -221,5 +230,90 @@ class MainForecastFragment : Fragment() {
         binding.rvDays.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         daysAdapter = WeatherDaysAdapter()
         binding.rvDays.adapter = daysAdapter
+    }
+
+    private fun showHoursProgressBar() = with(binding) {
+        pbHours.visibility = View.VISIBLE
+        rvHours.visibility = View.GONE
+        rvDays.visibility = View.GONE
+        btnRefresh.visibility = View.GONE
+        btnSearch.visibility = View.GONE
+        txtCondition.visibility = View.GONE
+        txtCurrentTemp.visibility = View.GONE
+        txtCurrentLocation.visibility = View.GONE
+        txtWeeklyForecast.visibility = View.GONE
+        imgCondition.visibility = View.GONE
+        imgWeeklyForecast.visibility = View.GONE
+    }
+
+    private fun hideHoursProgressBar() = with(binding)  {
+        pbHours.visibility = View.GONE
+        rvHours.visibility = View.VISIBLE
+        rvDays.visibility = View.VISIBLE
+        btnRefresh.visibility = View.VISIBLE
+        btnSearch.visibility = View.VISIBLE
+        txtCondition.visibility = View.VISIBLE
+        txtCurrentTemp.visibility = View.VISIBLE
+        txtCurrentLocation.visibility = View.VISIBLE
+        txtWeeklyForecast.visibility = View.VISIBLE
+        imgCondition.visibility = View.VISIBLE
+        imgWeeklyForecast.visibility = View.VISIBLE
+    }
+
+    private fun showDaysProgressBar() = with(binding)  {
+        pbDays.visibility = View.VISIBLE
+        rvHours.visibility = View.GONE
+        rvDays.visibility = View.GONE
+        btnRefresh.visibility = View.GONE
+        btnSearch.visibility = View.GONE
+        txtCondition.visibility = View.GONE
+        txtCurrentTemp.visibility = View.GONE
+        txtCurrentLocation.visibility = View.GONE
+        txtWeeklyForecast.visibility = View.GONE
+        imgCondition.visibility = View.GONE
+        imgWeeklyForecast.visibility = View.GONE
+    }
+
+    private fun hideDaysProgressBar() = with(binding)  {
+        pbDays.visibility = View.GONE
+        rvHours.visibility = View.VISIBLE
+        rvDays.visibility = View.VISIBLE
+        btnRefresh.visibility = View.VISIBLE
+        btnSearch.visibility = View.VISIBLE
+        txtCondition.visibility = View.VISIBLE
+        txtCurrentTemp.visibility = View.VISIBLE
+        txtCurrentLocation.visibility = View.VISIBLE
+        txtWeeklyForecast.visibility = View.VISIBLE
+        imgCondition.visibility = View.VISIBLE
+        imgWeeklyForecast.visibility = View.VISIBLE
+    }
+
+    private fun showCurrentProgressBar() = with(binding)  {
+        pbCurrent.visibility = View.VISIBLE
+        rvHours.visibility = View.GONE
+        rvDays.visibility = View.GONE
+        btnRefresh.visibility = View.GONE
+        btnSearch.visibility = View.GONE
+        txtCondition.visibility = View.GONE
+        txtCurrentTemp.visibility = View.GONE
+        txtCurrentLocation.visibility = View.GONE
+        txtWeeklyForecast.visibility = View.GONE
+        imgCondition.visibility = View.GONE
+        imgWeeklyForecast.visibility = View.GONE
+
+    }
+
+    private fun hideCurrentProgressBar() = with(binding)  {
+        pbCurrent.visibility = View.GONE
+        rvHours.visibility = View.VISIBLE
+        rvDays.visibility = View.VISIBLE
+        btnRefresh.visibility = View.VISIBLE
+        btnSearch.visibility = View.VISIBLE
+        txtCondition.visibility = View.VISIBLE
+        txtCurrentTemp.visibility = View.VISIBLE
+        txtCurrentLocation.visibility = View.VISIBLE
+        txtWeeklyForecast.visibility = View.VISIBLE
+        imgCondition.visibility = View.VISIBLE
+        imgWeeklyForecast.visibility = View.VISIBLE
     }
 }

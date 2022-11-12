@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -72,6 +73,27 @@ class MainForecastFragment : Fragment() {
         initRecyclers()
         updateHoursForecast()
         updateDaysForecast()
+
+        binding.btnRefresh.setOnClickListener {
+            showCurrentProgressBar()
+            showHoursProgressBar()
+            showDaysProgressBar()
+            checkGps()
+        }
+
+        binding.btnSearch.setOnClickListener {
+            DialogManager.searchCityWeatherDialog(
+                requireContext(),
+                object : DialogManager.Listener {
+                    override fun onClick(name: String?) {
+                        name?.let { name ->
+                            val url = viewModel.getUrl(name)
+                            NetworkService.getInstance(requireContext())
+                                .addToRequestQueue(createRequest(url))
+                        }
+                    }
+                })
+        }
     }
 
     override fun onResume() {
@@ -84,7 +106,8 @@ class MainForecastFragment : Fragment() {
             pLauncher = registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
             ) {
-                if (!it) Snackbar.make(binding.root,
+                if (!it) Snackbar.make(
+                    binding.root,
                     "You deny a permission. Weather forecast is not available",
                     Snackbar.LENGTH_LONG
                 ).show()
@@ -109,7 +132,8 @@ class MainForecastFragment : Fragment() {
             fLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, ct.token)
                 .addOnCompleteListener {
                     val url = viewModel.getUrl("${it.result.latitude},${it.result.longitude}")
-                    NetworkService.getInstance(requireContext()).addToRequestQueue(createRequest(url))
+                    NetworkService.getInstance(requireContext())
+                        .addToRequestQueue(createRequest(url))
                 }
         } else {
             DialogManager.locationSettingsDialog(requireContext(), object : DialogManager.Listener {
@@ -129,17 +153,36 @@ class MainForecastFragment : Fragment() {
         return JsonObjectRequest(
             Request.Method.GET, url, null,
             { response ->
+
                 val currentWeather = parseCurrentDay(response)
                 val hoursWeather = parseHoursForecast(response)
                 val weeklyWeather = parseWeeklyForecast(response)
 
-                viewModel.liveHoursForecast.value = ResponseStatus.SuccessHoursForecast(hoursWeather)
+                viewModel.liveHoursForecast.value =
+                    ResponseStatus.SuccessHoursForecast(hoursWeather)
                 viewModel.liveDataCurrentWeather.value =
                     ResponseStatus.SuccessWeather(currentWeather)
-                viewModel.liveWeeklyForecast.value = ResponseStatus.SuccessWeeklyForecast(weeklyWeather)
+                viewModel.liveWeeklyForecast.value =
+                    ResponseStatus.SuccessWeeklyForecast(weeklyWeather)
             },
-            { error ->
-                Log.d("MyLog", "Something is wrong: $error")
+            {
+                Snackbar.make(
+                    binding.root,
+                    "No matching location found. Please try another one.",
+                    Snackbar.LENGTH_LONG
+                ).setAction("Retry") {
+                    DialogManager.searchCityWeatherDialog(
+                        requireContext(),
+                        object : DialogManager.Listener {
+                            override fun onClick(name: String?) {
+                                name?.let { name ->
+                                    val url = viewModel.getUrl(name)
+                                    NetworkService.getInstance(requireContext())
+                                        .addToRequestQueue(createRequest(url))
+                                }
+                            }
+                        })
+                }.show()
             }
         )
     }
@@ -156,6 +199,7 @@ class MainForecastFragment : Fragment() {
                     txtCurrentLocation.text = it.item.location
                     txtCurrentTemp.text = "${it.item.temp}°C"
                     txtCondition.text = it.item.condition
+                    txtCurrentLocationCountry.text = it.item.country
                 }
 
                 is ResponseStatus.Error -> {
@@ -223,11 +267,13 @@ class MainForecastFragment : Fragment() {
     }
 
     private fun initRecyclers() {
-        binding.rvHours.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvHours.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         hoursAdapter = WeatherHoursAdapter()
         binding.rvHours.adapter = hoursAdapter
 
-        binding.rvDays.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding.rvDays.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         daysAdapter = WeatherDaysAdapter()
         binding.rvDays.adapter = daysAdapter
     }
@@ -235,6 +281,7 @@ class MainForecastFragment : Fragment() {
     private fun showHoursProgressBar() = with(binding) {
         pbHours.visibility = View.VISIBLE
         rvHours.visibility = View.GONE
+        txtCurrentLocationCountry.visibility = View.GONE
         rvDays.visibility = View.GONE
         btnRefresh.visibility = View.GONE
         btnSearch.visibility = View.GONE
@@ -246,10 +293,11 @@ class MainForecastFragment : Fragment() {
         imgWeeklyForecast.visibility = View.GONE
     }
 
-    private fun hideHoursProgressBar() = with(binding)  {
+    private fun hideHoursProgressBar() = with(binding) {
         pbHours.visibility = View.GONE
         rvHours.visibility = View.VISIBLE
         rvDays.visibility = View.VISIBLE
+        txtCurrentLocationCountry.visibility = View.VISIBLE
         btnRefresh.visibility = View.VISIBLE
         btnSearch.visibility = View.VISIBLE
         txtCondition.visibility = View.VISIBLE
@@ -260,10 +308,11 @@ class MainForecastFragment : Fragment() {
         imgWeeklyForecast.visibility = View.VISIBLE
     }
 
-    private fun showDaysProgressBar() = with(binding)  {
+    private fun showDaysProgressBar() = with(binding) {
         pbDays.visibility = View.VISIBLE
         rvHours.visibility = View.GONE
         rvDays.visibility = View.GONE
+        txtCurrentLocationCountry.visibility = View.GONE
         btnRefresh.visibility = View.GONE
         btnSearch.visibility = View.GONE
         txtCondition.visibility = View.GONE
@@ -274,10 +323,11 @@ class MainForecastFragment : Fragment() {
         imgWeeklyForecast.visibility = View.GONE
     }
 
-    private fun hideDaysProgressBar() = with(binding)  {
+    private fun hideDaysProgressBar() = with(binding) {
         pbDays.visibility = View.GONE
         rvHours.visibility = View.VISIBLE
         rvDays.visibility = View.VISIBLE
+        txtCurrentLocationCountry.visibility = View.VISIBLE
         btnRefresh.visibility = View.VISIBLE
         btnSearch.visibility = View.VISIBLE
         txtCondition.visibility = View.VISIBLE
@@ -288,11 +338,12 @@ class MainForecastFragment : Fragment() {
         imgWeeklyForecast.visibility = View.VISIBLE
     }
 
-    private fun showCurrentProgressBar() = with(binding)  {
+    private fun showCurrentProgressBar() = with(binding) {
         pbCurrent.visibility = View.VISIBLE
         rvHours.visibility = View.GONE
         rvDays.visibility = View.GONE
         btnRefresh.visibility = View.GONE
+        txtCurrentLocationCountry.visibility = View.GONE
         btnSearch.visibility = View.GONE
         txtCondition.visibility = View.GONE
         txtCurrentTemp.visibility = View.GONE
@@ -303,12 +354,13 @@ class MainForecastFragment : Fragment() {
 
     }
 
-    private fun hideCurrentProgressBar() = with(binding)  {
+    private fun hideCurrentProgressBar() = with(binding) {
         pbCurrent.visibility = View.GONE
         rvHours.visibility = View.VISIBLE
         rvDays.visibility = View.VISIBLE
         btnRefresh.visibility = View.VISIBLE
         btnSearch.visibility = View.VISIBLE
+        txtCurrentLocationCountry.visibility = View.VISIBLE
         txtCondition.visibility = View.VISIBLE
         txtCurrentTemp.visibility = View.VISIBLE
         txtCurrentLocation.visibility = View.VISIBLE

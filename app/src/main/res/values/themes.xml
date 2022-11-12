@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.PocketWeather" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/background_color</item>
+        <item name="colorPrimary">#464E81</item>
         <item name="colorPrimaryVariant">@color/background_color_variant</item>
         <item name="colorOnPrimary">@color/background_color_on_primary</item>
         <!-- Secondary brand color. -->

@@ -1,15 +1,18 @@
 package com.katerina.weather.weather_main_screen.ui.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.katerina.weather.core.api.NetworkService
 import com.katerina.weather.core.models.HourForecastModel
 import com.katerina.weather.core.models.WeatherModel
 import com.katerina.weather.core.models.WeeklyForecastModel
 import com.katerina.weather.core.utils.Constants
+import com.katerina.weather.core.utils.DialogManager
 import com.katerina.weather.core.utils.ResponseStatus
 import org.json.JSONObject
 
-class MainForecastViewModel: ViewModel() {
+class MainForecastViewModel : ViewModel() {
 
     // Текущая погода
     val liveDataCurrentWeather = MutableLiveData<ResponseStatus>()
@@ -29,9 +32,11 @@ class MainForecastViewModel: ViewModel() {
     fun parseCurrentDay(jsonObject: JSONObject): WeatherModel {
         return WeatherModel(
             location = jsonObject.getJSONObject("location").getString("name"),
-            temp = jsonObject.getJSONObject("current").getString("temp_c").toFloat().toInt().toString(),
+            temp = jsonObject.getJSONObject("current").getString("temp_c").toFloat().toInt()
+                .toString(),
             condition = jsonObject.getJSONObject("current").getJSONObject("condition")
-                .getString("text")
+                .getString("text"),
+            country = jsonObject.getJSONObject("location").getString("country")
         )
     }
 
@@ -43,8 +48,10 @@ class MainForecastViewModel: ViewModel() {
         for (i in 0 until forecastJson.length()) {
             val item = WeeklyForecastModel(
                 date = forecastJson.getJSONObject(i).getString("date"),
-                maxTemp = forecastJson.getJSONObject(i).getJSONObject("day").getString("maxtemp_c").toFloat().toInt().toString(),
-                minTemp = forecastJson.getJSONObject(i).getJSONObject("day").getString("mintemp_c").toFloat().toInt().toString(),
+                maxTemp = forecastJson.getJSONObject(i).getJSONObject("day").getString("maxtemp_c")
+                    .toFloat().toInt().toString(),
+                minTemp = forecastJson.getJSONObject(i).getJSONObject("day").getString("mintemp_c")
+                    .toFloat().toInt().toString(),
                 condition = forecastJson.getJSONObject(i).getJSONObject("day")
                     .getJSONObject("condition").getString("text")
             )
@@ -64,7 +71,8 @@ class MainForecastViewModel: ViewModel() {
         for (i in 0 until forecastHoursJson.length()) {
             val item = HourForecastModel(
                 time = forecastHoursJson.getJSONObject(i).getString("time"),
-                temp = forecastHoursJson.getJSONObject(i).getString("temp_c").toFloat().toInt().toString(),
+                temp = forecastHoursJson.getJSONObject(i).getString("temp_c").toFloat().toInt()
+                    .toString(),
                 condition = forecastHoursJson.getJSONObject(i).getJSONObject("condition")
                     .getString("text")
             )
@@ -73,5 +81,4 @@ class MainForecastViewModel: ViewModel() {
 
         return forecastHours
     }
-
 }

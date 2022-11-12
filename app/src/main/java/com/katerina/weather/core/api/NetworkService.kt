@@ -1,9 +1,13 @@
 package com.katerina.weather.core.api
 
 import android.content.Context
+import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.Volley
+import java.nio.charset.Charset
 
 class NetworkService constructor(context: Context) {
     companion object {

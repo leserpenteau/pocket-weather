@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -31,25 +30,30 @@ import com.katerina.weather.core.api.NetworkService
 import com.katerina.weather.core.models.HourForecastModel
 import com.katerina.weather.core.models.WeatherModel
 import com.katerina.weather.core.models.WeeklyForecastModel
-import com.katerina.weather.core.utils.DialogManager
-import com.katerina.weather.core.utils.NetworkUtils
-import com.katerina.weather.core.utils.ResponseStatus
-import com.katerina.weather.core.utils.isPermissionGranted
+import com.katerina.weather.core.utils.*
 import com.katerina.weather.databinding.FragmentMainForecastBinding
 import com.katerina.weather.weather_main_screen.ui.viewmodels.MainForecastViewModel
 import org.json.JSONObject
+import javax.inject.Inject
 
 class MainForecastFragment : Fragment() {
 
     private lateinit var binding: FragmentMainForecastBinding
 
-    private val viewModel: MainForecastViewModel by activityViewModels()
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory<MainForecastViewModel>
+    lateinit var viewModel: MainForecastViewModel
 
     private lateinit var hoursAdapter: WeatherHoursAdapter
     private lateinit var daysAdapter: WeatherDaysAdapter
 
     private lateinit var pLauncher: ActivityResultLauncher<String>
     private lateinit var fLocationClient: FusedLocationProviderClient
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as WeatherApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +65,9 @@ class MainForecastFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = viewModelFactory.getViewModel(this)
+
         showCurrentProgressBar()
         showHoursProgressBar()
         showDaysProgressBar()

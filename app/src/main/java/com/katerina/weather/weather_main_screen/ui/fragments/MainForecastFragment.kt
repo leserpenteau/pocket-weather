@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -25,6 +24,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.snackbar.Snackbar
+import com.katerina.weather.WeatherApplication
 import com.katerina.weather.core.adapters.WeatherDaysAdapter
 import com.katerina.weather.core.adapters.WeatherHoursAdapter
 import com.katerina.weather.core.api.NetworkService
@@ -32,6 +32,7 @@ import com.katerina.weather.core.models.HourForecastModel
 import com.katerina.weather.core.models.WeatherModel
 import com.katerina.weather.core.models.WeeklyForecastModel
 import com.katerina.weather.core.utils.DialogManager
+import com.katerina.weather.core.utils.NetworkUtils
 import com.katerina.weather.core.utils.ResponseStatus
 import com.katerina.weather.core.utils.isPermissionGranted
 import com.katerina.weather.databinding.FragmentMainForecastBinding
@@ -166,23 +167,31 @@ class MainForecastFragment : Fragment() {
                     ResponseStatus.SuccessWeeklyForecast(weeklyWeather)
             },
             {
-                Snackbar.make(
-                    binding.root,
-                    "No matching location found. Please try another one.",
-                    Snackbar.LENGTH_LONG
-                ).setAction("Retry") {
-                    DialogManager.searchCityWeatherDialog(
-                        requireContext(),
-                        object : DialogManager.Listener {
-                            override fun onClick(name: String?) {
-                                name?.let { name ->
-                                    val url = viewModel.getUrl(name)
-                                    NetworkService.getInstance(requireContext())
-                                        .addToRequestQueue(createRequest(url))
+                if (!NetworkUtils.isOnline(requireContext())) {
+                    Snackbar.make(
+                        binding.root,
+                        "No internet connection.",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        "No matching location found. Please try another one.",
+                        Snackbar.LENGTH_LONG
+                    ).setAction("Retry") {
+                        DialogManager.searchCityWeatherDialog(
+                            requireContext(),
+                            object : DialogManager.Listener {
+                                override fun onClick(name: String?) {
+                                    name?.let { name ->
+                                        val url = viewModel.getUrl(name)
+                                        NetworkService.getInstance(requireContext())
+                                            .addToRequestQueue(createRequest(url))
+                                    }
                                 }
-                            }
-                        })
-                }.show()
+                            })
+                    }.show()
+                }
             }
         )
     }
@@ -204,7 +213,10 @@ class MainForecastFragment : Fragment() {
 
                 is ResponseStatus.Error -> {
                     showCurrentProgressBar()
-                    Log.d("MyLog", "Something is wrong with updateCurrentWeather: ${it.throwable}")
+                    Log.d(
+                        "MyLog",
+                        "Something is wrong with updateCurrentWeather: ${it.throwable}"
+                    )
                 }
                 else -> {}
             }
@@ -225,7 +237,10 @@ class MainForecastFragment : Fragment() {
 
                 is ResponseStatus.Error -> {
                     showHoursProgressBar()
-                    Log.d("MyLog", "Something is wrong with updateHoursForecast: ${it.throwable}")
+                    Log.d(
+                        "MyLog",
+                        "Something is wrong with updateHoursForecast: ${it.throwable}"
+                    )
                 }
                 else -> {}
             }
@@ -246,7 +261,10 @@ class MainForecastFragment : Fragment() {
 
                 is ResponseStatus.Error -> {
                     showDaysProgressBar()
-                    Log.d("MyLog", "Something is wrong with updateDaysForecast: ${it.throwable}")
+                    Log.d(
+                        "MyLog",
+                        "Something is wrong with updateDaysForecast: ${it.throwable}"
+                    )
                 }
 
                 else -> {}

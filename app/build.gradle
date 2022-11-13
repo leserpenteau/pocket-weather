@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.katerina.weather"
-        minSdk 21
+        minSdk 23
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -60,10 +60,6 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
-    //Hilt
-    implementation 'com.google.dagger:hilt-android:2.43'
-    kapt 'com.google.dagger:hilt-android-compiler:2.43'
-
     //Volley
     implementation 'com.android.volley:volley:1.2.1'
 
@@ -71,4 +67,14 @@ dependencies {
     implementation "androidx.room:room-runtime:2.4.3"
     implementation "androidx.room:room-ktx:2.4.3"
     kapt "androidx.room:room-compiler:2.4.3"
+
+    // Dagger
+    api "com.google.dagger:dagger:2.40"
+    kapt "com.google.dagger:dagger-compiler:2.40"
+    kapt "com.google.dagger:dagger-android-processor:2.40"
+
+    implementation "com.google.dagger:dagger:2.40"
+    implementation "com.google.dagger:dagger-android:2.40"
+    implementation "com.google.dagger:dagger-android-support:2.40"
+
 }

@@ -140,7 +140,7 @@
             android:id="@+id/img_weekly_forecast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="400dp"
+            android:layout_marginTop="@dimen/spacing_400"
             android:src="@drawable/img_days_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

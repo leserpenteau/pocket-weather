@@ -9,6 +9,7 @@
     <dimen name="spacing_25">25dp</dimen>
     <dimen name="spacing_32">32dp</dimen>
     <dimen name="spacing_350">350dp</dimen>
+    <dimen name="spacing_400">400dp</dimen>
 
     <!--Elevation-->
     <dimen name="elevation_12">12dp</dimen>

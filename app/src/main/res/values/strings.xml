@@ -6,4 +6,5 @@
     <string name="txt_current_temperature">+25°C</string>
     <string name="txt_weekly_forecast">Weekly forecast</string>
     <string name="txt_sunny">Sunny</string>
+    <string name="fragment_main_forecast_txt_feels_like">Feels like:</string>
 </resources>
